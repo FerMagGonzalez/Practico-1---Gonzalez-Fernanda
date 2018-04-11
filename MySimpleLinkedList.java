@@ -41,6 +41,15 @@ public class MySimpleLinkedList implements Iterable<Object>{
 	}
 	
 	/**
+	 * 
+	 */
+	public MySimpleLinkedList(int n){
+		for(int i=0; i<n; i++) {
+			insert((int)(Math.floor(Math.random() * 10) + 1));
+		}
+	}
+	
+	/**
 	 * @return the first
 	 */
 	public Node getFirst() {
@@ -70,11 +79,48 @@ public class MySimpleLinkedList implements Iterable<Object>{
 
 	/**
 	 * 
-	 */
+	 **/
 	public void insert (Object o){
 		Node tmp = new Node(o, null);
 		tmp.setNext(first);
 		first = tmp;
+		size++;
+		
+	}
+	
+	public void insertOrd (int o){
+		Node nuevo = new Node();
+		nuevo.setInfo(o);
+		if (isEmpty()){
+			first = nuevo;
+		}
+		else{
+			if (o < (int)first.getInfo()){
+				nuevo.setNext(first);
+				first = nuevo;
+			}
+			else{
+				Node cursor = first;
+				Node atras = first;
+				while (o >= (int)cursor.getInfo() && (cursor.getNext() != null)){
+					atras = cursor;
+					cursor = cursor.getNext();
+				}
+				if (o >= (int)cursor.getInfo()){
+					cursor.setNext(nuevo);
+				}
+				else{
+					nuevo.setNext(cursor);
+					atras.setNext(nuevo);
+				}
+			}
+			Node tmp = first;
+			while (tmp.getNext() != null){
+				tmp = tmp.getNext();
+			}
+			nuevo = tmp.getNext();
+			tmp.setNext(nuevo);
+		}
 		size++;
 	}
 	
@@ -127,7 +173,7 @@ public class MySimpleLinkedList implements Iterable<Object>{
         // llegar al final de la lista.
         while(aux != null && encontrado != true){
             // Consulta si el valor del nodo es igual al de referencia.
-            if (aux.getInfo().equals(referencia)){
+            if (aux.getInfo() == referencia){
                 // Canbia el valor de la bandera.
                 encontrado = true;
             }
