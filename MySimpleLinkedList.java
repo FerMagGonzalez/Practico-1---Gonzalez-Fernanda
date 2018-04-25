@@ -4,19 +4,21 @@ import java.util.Iterator;
  * @author Fernanda M. Gonzalez
  *
  */
-public class MySimpleLinkedList implements Iterable<Object>{
+public class MySimpleLinkedList implements Iterable<Integer>{
 
 	private Node first;
 	private int size = 0;
 	
-	public class MyIterator implements Iterator<Object> {
+	public class MyIterator implements Iterator<Integer> {
 		
 		private int posActual;
+		private Node cursor;
 		private MySimpleLinkedList elementos;
 		
 		public MyIterator (MySimpleLinkedList l){
 			elementos = l;
 			posActual = 0;
+			cursor = first;
 		}
 
 		@Override
@@ -25,10 +27,11 @@ public class MySimpleLinkedList implements Iterable<Object>{
 		}
 
 		@Override
-		public Node next() {
-			Node n = (Node) elementos.get(posActual);
+		public Integer next() {
+			Node tmp = cursor;
+			cursor = cursor.getNext();
 			posActual++;
-			return n;
+			return tmp.getInfo();
 		}
 		
 	}
@@ -78,35 +81,40 @@ public class MySimpleLinkedList implements Iterable<Object>{
 	}
 
 	/**
-	 * 
-	 **/
-	public void insert (Object o){
-		Node tmp = new Node(o, null);
+	 * Método que siempre inserta el valor al comienzo de la lista.
+	 * Si la lista esta ordenada, esta queda de mayor a menor.
+	 * @param e Elemento a insertar.
+	 */
+	public void insert (int e){
+		Node tmp = new Node(e, null);
 		tmp.setNext(first);
 		first = tmp;
 		size++;
-		
 	}
 	
-	public void insertOrd (int o){
+	/**
+	 * Método que inserta ordenado el valo que se pasa como parametro.
+	 * @param e Elemento a insertar.
+	 */
+	public void insertOrd (int e){
 		Node nuevo = new Node();
-		nuevo.setInfo(o);
+		nuevo.setInfo(e);
 		if (isEmpty()){
 			first = nuevo;
 		}
 		else{
-			if (o < (int)first.getInfo()){
+			if (e < first.getInfo()){
 				nuevo.setNext(first);
 				first = nuevo;
 			}
 			else{
 				Node cursor = first;
 				Node atras = first;
-				while (o >= (int)cursor.getInfo() && (cursor.getNext() != null)){
+				while (e >= cursor.getInfo() && (cursor.getNext() != null)){
 					atras = cursor;
 					cursor = cursor.getNext();
 				}
-				if (o >= (int)cursor.getInfo()){
+				if (e >= cursor.getInfo()){
 					cursor.setNext(nuevo);
 				}
 				else{
@@ -135,7 +143,7 @@ public class MySimpleLinkedList implements Iterable<Object>{
 	}
 	
 	/**
-	 * 
+	 * Método que vacia la lista.
 	 */
 	public void deleteList(){
 		// Elimina el valor y la referencia a los demas nodos.
@@ -164,7 +172,7 @@ public class MySimpleLinkedList implements Iterable<Object>{
      * @param referencia valor a buscar.
      * @return true si existe el valor en la lista.
      */
-    public boolean search(Object referencia){
+    public boolean search(int referencia){
         // Crea una copia de la lista.
         Node aux = first;
         // Bandera para indicar si el valor existe.
@@ -186,7 +194,7 @@ public class MySimpleLinkedList implements Iterable<Object>{
         return encontrado;
     }
     
-    public Iterator<Object> iterator() {
+    public Iterator<Integer> iterator() {
 		return new MyIterator(this);
 	}
     
@@ -194,11 +202,11 @@ public class MySimpleLinkedList implements Iterable<Object>{
      * Mustra en pantalla los elementos de la lista.
      **/
     public void showList(){
-    	Iterator<Object> it = this.iterator();
+    	Iterator<Integer> it = this.iterator();
     	int i = 0;
     	while (it.hasNext()){
-    		Node aux = (Node) it.next();
-    		System.out.print(i + ".[ " + aux.getInfo() + " ]" + " ->  ");
+    		Integer aux = it.next();
+    		System.out.print(i + ".[ " + aux + " ]" + " ->  ");
     		i++;
     	}
     }

@@ -4,7 +4,7 @@
  */
 public class Node {
 
-	private Object info;
+	private int info;
 	private Node next;
 	
 	/**
@@ -12,7 +12,7 @@ public class Node {
 	 * @param next
 	 */
 	public Node() {
-		this.info = null;
+		this.info = -1;
 		this.next = null;
 	}
 	
@@ -20,23 +20,23 @@ public class Node {
 	 * @param info
 	 * @param next
 	 */
-	public Node(Object o, Node n) {
-		this.info = o;
+	public Node(int e, Node n) {
+		this.info = e;
 		this.next = n;
 	}
 	
 	/**
 	 * @return the info
 	 */
-	public Object getInfo() {
+	public int getInfo() {
 		return info;
 	}
 	
 	/**
 	 * @param info the info to set
 	 */
-	public void setInfo(Object o) {
-		this.info = o;
+	public void setInfo(int e) {
+		this.info = e;
 	}
 	
 	/**
